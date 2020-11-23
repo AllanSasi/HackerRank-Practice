@@ -1,0 +1,13 @@
+/*
+Given a table, BST, containing two columns: N and P, where N represents the value of a node in Binary Tree, and P is the parent of N.
+Write a query to find the node type of Binary Tree ordered by the value of the node. Output one of the following for each node:
+- Root: If node is root node.
+- Leaf: If node is leaf node.
+- Inner: If node is neither root nor leaf node.
+*/
+select n, case
+  when P is null then 'Root'
+  when (select count(*) from bst child where child.p=parent.n)>0 then 'Inner'
+  else 'Leaf'
+  end
+from bst parent order by n
