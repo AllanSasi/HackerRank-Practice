@@ -1,0 +1,21 @@
+/*
+Write a query to print all prime numbers less than or equal to 1000. Print your result on a single line, and use the ampersand(&) character as your separator (instead of a space).
+For example, the output for all prime numbers <=10 would be:
+2&3&5&7
+*/
+select group_concat(q separator '&') from 
+    (select @x:=@x+1 as q from
+        information_schema.tables a,
+        information_schema.tables b,
+        (select @x:=1)l
+    )m
+where q<=1000 and not exists
+    (select * from 
+        (select @y:=@y+1 as p from
+            information_schema.tables a,
+            information_schema.tables b,
+            (select @y:=1)n
+            limit 1000
+        )o
+    where floor(q/p)=(q/p) and p<q and p>1
+    )
